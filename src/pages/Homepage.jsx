@@ -32,12 +32,10 @@ export default function Homepage() {
 
                 const firstMovieRes = await fetch(`${API_URL}/movie/${movieData.results[0].id}/images`, options);
                 const firstMovieData = await firstMovieRes.json();
-                const firstMovieImage = firstMovieData.find(image => image.height >= 1000);
-                setFirstMovieImage(firstMovieImage);
+                const firstMovieImageRaw = (firstMovieData.backdrops.find(image => image.height >= 1000)).file_path;
 
+                setFirstMovieImage(firstMovieImageRaw);
 
-
-                console.log(firstMovieImage);
 
             } catch (error) {
                 console.error("Errore nel fetch dei dati TMDB:", error);
@@ -55,7 +53,7 @@ export default function Homepage() {
                 <div className="w-[30%] "></div>
                 <div className="w-full h-full mx-auto relative overflow-hidden">
                     <img
-                        src={firstMovie?.backdrop_path ? `https://image.tmdb.org/t/p/w500${firstMovie.backdrop_path}` : ''}
+                        src={`https://image.tmdb.org/t/p/w500${firstMovieImage}`}
                         alt={firstMovie?.title || firstMovie?.name || ''}
                         className="h-full w-full object-cover"
                     />
