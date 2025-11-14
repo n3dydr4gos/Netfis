@@ -41,7 +41,7 @@ export default function Homepage() {
             const firstMovieVideos = await fetch(`${API_URL}/movie/${movieData.results[0].id}/videos`, options);
             const videosData = await firstMovieVideos.json();
             console.log(videosData);
-            const trailerRaw = videosData.results.find(video => video.type === "Featurette" && video.size === 1080 && video.site === "YouTube");
+            const trailerRaw = videosData.results.find(video => video.type === "Trailer" && video.size === 1080 && video.site === "YouTube");
             console.log("https://www.youtube.com/watch?v=" + trailerRaw.key);
             setTrailer(trailerRaw.key);
 
