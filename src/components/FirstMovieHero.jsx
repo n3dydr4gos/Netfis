@@ -1,8 +1,9 @@
 import { Play } from "lucide-react";
+import Button from "./Button";
 
-export default function FirstMovieHero(firstMovie, firstMovieImage) {
+export default function FirstMovieHero({ firstMovie, firstMovieImage }) {
     return (
-        <div className="relative flex items-center h-[70vh] w-[80vw] overflow-hidden mx-auto">
+        <div className="relative flex items-center h-[70vh] w-full overflow-hidden mx-auto px-10 lg:px-56">
             {/* Background image */}
             <img
                 src={`https://image.tmdb.org/t/p/original${firstMovieImage}`}
@@ -15,17 +16,14 @@ export default function FirstMovieHero(firstMovie, firstMovieImage) {
             <div className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black to-transparent z-20"></div>
             {/* Content */}
 
-            <div className="relative z-20 pl-16 max-w-2xl">
-                <h2 className="text-white text-6xl font-extrabold drop-shadow-lg mb-4">
+            <div className="relative z-20 max-w-2xl">
+                <h2 className="text-white text-4xl lg:text-7xl font-extrabold drop-shadow-lg mb-4 text-shadow-[2px_2px_40px_rgba(0,0,0,0.5)] text-shadow-white">
                     {firstMovie?.title}
                 </h2>
                 <h3 className="text-white text-md leading-relaxed drop-shadow-md">
                     {firstMovie?.overview}
                 </h3>
-                <a className="flex cursor-pointer text-white font-bold my-10 bg-red-800 py-3 px-5 rounded-2xl w-fit gap-3">
-                    <Play strokeWidth={3} />
-                    Guarda ora
-                </a>
+                <Button> <Play /> Guarda ora </Button>
             </div>
 
         </div>

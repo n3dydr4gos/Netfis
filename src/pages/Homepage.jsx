@@ -11,41 +11,42 @@ export default function Homepage() {
     const API_URL = import.meta.env.VITE_API_BASE_URL; // preso da .env
     const TOKEN = import.meta.env.VITE_APP_BEARER_TOKEN; // preso da .env
 
+    const fetchData = async () => {
+        try {
+
+            const options = {
+                method: "GET",
+                headers: {
+                    accept: "application/json",
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            };
+
+            const movieRes = await fetch(`${API_URL}/movie/popular?language=it-IT`, options);
+            const movieData = await movieRes.json();
+            setMovies(movieData.results || []);
+
+            const seriesRes = await fetch(`${API_URL}/tv/popular?language=it-IT`, options);
+            const seriesData = await seriesRes.json();
+            setSeries(seriesData.results || []);
+            setFirstMovie(movieData.results[0]);
+
+            const firstMovieRes = await fetch(`${API_URL}/movie/${movieData.results[0].id}/images`, options);
+            const firstMovieData = await firstMovieRes.json();
+            const firstMovieImageRaw = firstMovieData.backdrops.find(image => image.height >= 1500);
+
+            const firstMovideDetails = await fetch(`${API_URL}/movie/${movieData.results[0].id}`, options);
+            console.log(firstMovideDetails);
+            setFirstMovieImage(firstMovieImageRaw.file_path);
+
+
+
+        } catch (error) {
+            console.error("Errore nel fetch dei dati TMDB:", error);
+        }
+    };
+
     useEffect(() => {
-
-
-        const fetchData = async () => {
-            try {
-
-                const options = {
-                    method: "GET",
-                    headers: {
-                        accept: "application/json",
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                };
-
-                const movieRes = await fetch(`${API_URL}/movie/popular?language=it-IT`, options);
-                const movieData = await movieRes.json();
-                setMovies(movieData.results || []);
-
-                const seriesRes = await fetch(`${API_URL}/tv/popular?language=it-IT`, options);
-                const seriesData = await seriesRes.json();
-                setSeries(seriesData.results || []);
-                setFirstMovie(movieData.results[0]);
-
-                const firstMovieRes = await fetch(`${API_URL}/movie/${movieData.results[0].id}/images`, options);
-                const firstMovieData = await firstMovieRes.json();
-                const firstMovieImageRaw = firstMovieData.backdrops.find(image => image.height >= 1500);
-
-                setFirstMovieImage(firstMovieImageRaw.file_path);
-
-
-
-            } catch (error) {
-                console.error("Errore nel fetch dei dati TMDB:", error);
-            }
-        };
 
         fetchData();
     }, []);
