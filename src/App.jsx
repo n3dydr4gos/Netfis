@@ -1,24 +1,22 @@
-import { createBrowserRouter, RouterProvider } from 'react-router'
-import Homepage from './pages/Homepage'
-import Login from './pages/Movies'
-import Favourites from './pages/Favourites'
-import Search from './pages/Search'
-import Tv from './pages/Tv'
-import Errorpage from './pages/ErrorPage'
-import Layout from './Layouts/Layout'
+import {Route, Routes } from "react-router";
+import Homepage from "./pages/Homepage";
+import Favourites from "./pages/Favourites";
+import Search from "./pages/Search";
+import Errorpage from "./pages/ErrorPage";
+import Movies from "./pages/Movies";
+import Series from "./pages/Series";
 
 export default function App() {
-  return (<>
-    <Layout />
-    <RouterProvider router={router} />
-  </>);
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/favourites" element={<Favourites />} />
+        <Route path="/series" element={<Series />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="*" element={<Errorpage />} />
+      </Routes>
+    </>
+  );
 }
-
-const router = createBrowserRouter([
-  { path: '/', Component: Homepage },
-  { path: '/movies', Component: Login },
-  { path: '/favourites', Component: Favourites },
-  { path: '/tv', Component: Tv },
-  { path: '/search', Component: Search },
-  { path: '*', Component: Errorpage },
-])

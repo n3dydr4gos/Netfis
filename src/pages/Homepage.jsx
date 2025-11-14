@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import FirstMovieHero from "../components/FirstMovieHero";
+import Layout from "../Layouts/Layout";
 
 export default function Homepage() {
     const [movies, setMovies] = useState([]);
@@ -36,7 +37,6 @@ export default function Homepage() {
             const firstMovieImageRaw = firstMovieData.backdrops.find(image => image.height >= 1500);
 
             const firstMovideDetails = await fetch(`${API_URL}/movie/${movieData.results[0].id}`, options);
-            console.log(firstMovideDetails);
             setFirstMovieImage(firstMovieImageRaw.file_path);
 
 
@@ -51,12 +51,9 @@ export default function Homepage() {
         fetchData();
     }, []);
 
-    console.log(firstMovie);
-    console.log(firstMovieImage);
-
     return (
 
-        <>
+        <Layout>
             <div className="h-[70vh] w-full bg-black">
                 <FirstMovieHero firstMovie={firstMovie} firstMovieImage={firstMovieImage} />
 
@@ -68,7 +65,7 @@ export default function Homepage() {
                 <h1 className="text-3xl font-bold mb-4">Migliori Film</h1>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     {movies.map((movie) => (
-                        <div key={movie.id} className="bg-gray-900 text-white rounded-xl p-2 shadow-lg">
+                        <div key={movie.id} className="bg-dark-900 text-white rounded-xl p-2 shadow-lg">
                             <img
                                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                 alt={movie.title}
@@ -93,6 +90,6 @@ export default function Homepage() {
                     ))}
                 </div>
             </div>
-        </>
+        </Layout>
     );
 }

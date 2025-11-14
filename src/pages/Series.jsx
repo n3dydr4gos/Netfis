@@ -1,4 +1,4 @@
-export default function Tv() {
+export default function Series() {
     return (
         <>
             
