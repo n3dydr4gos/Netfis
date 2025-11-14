@@ -8,6 +8,7 @@ export default function Homepage() {
     const [series, setSeries] = useState([]);
     const [firstMovie, setFirstMovie] = useState({});
     const [firstMovieImage, setFirstMovieImage] = useState();
+    const [trailer, setTrailer] = useState("");
 
     const API_URL = import.meta.env.VITE_API_BASE_URL; // preso da .env
     const TOKEN = import.meta.env.VITE_APP_BEARER_TOKEN; // preso da .env
@@ -36,6 +37,12 @@ export default function Homepage() {
             const firstMovieData = await firstMovieRes.json();
             const firstMovieImageRaw = firstMovieData.backdrops.find(image => image.height >= 1500);
 
+            const firstMovieVideos = await fetch(`${API_URL}/movie/${movieData.results[0].id}/videos`, options);
+            const videosData = await firstMovieVideos.json();
+            const trailerRaw = videosData.results.find(video => video.type === "Trailer");
+            console.log("https://www.youtube.com/watch?v=" + trailerRaw.key);
+            setTrailer(trailerRaw.key);
+
             const firstMovideDetails = await fetch(`${API_URL}/movie/${movieData.results[0].id}`, options);
             console.log(firstMovideDetails);
             setFirstMovieImage(firstMovieImageRaw.file_path);
@@ -52,14 +59,15 @@ export default function Homepage() {
         fetchData();
     }, []);
 
+    console.log(trailer);
     console.log(firstMovie);
-    console.log(firstMovieImage);
+    console.log(movies);
 
     return (
 
         <>
             <div className="h-[70vh] w-full bg-black">
-                <FirstMovieHero firstMovie={firstMovie} firstMovieImage={firstMovieImage} />
+                <FirstMovieHero firstMovie={firstMovie} firstMovieImage={firstMovieImage} firstMovieTrailer={"https://www.youtube.com/watch?v=" + trailer} />
 
             </div>
             <div className="h-[10vh] w-full  bg-linear-to-b from-black to-transparent z-10"></div>
