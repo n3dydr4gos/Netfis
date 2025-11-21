@@ -1,95 +1,38 @@
-
-import { useState, useEffect } from "react";
-import FirstMovieHero from "../components/FirstMovieHero";
+import { useMedia } from "../context/MediaContext";
 import Card from "../components/Card";
 import Layout from "../Layouts/Layout";
+import FirstMovieHero from "../components/FirstMovieHero";
 
 export default function Homepage() {
-    const [movies, setMovies] = useState([]);
-    const [series, setSeries] = useState([]);
-    const [firstMovie, setFirstMovie] = useState({});
-    const [firstMovieImage, setFirstMovieImage] = useState();
-    const [trailer, setTrailer] = useState("");
+  const { movies, series, firstMovie, firstMovieImage, trailer, loading } = useMedia();
 
-    const API_URL = import.meta.env.VITE_API_BASE_URL; // preso da .env
-    const TOKEN = import.meta.env.VITE_APP_BEARER_TOKEN; // preso da .env
+  if (loading) return <p className="text-white">Caricamento...</p>;
 
-    const fetchData = async () => {
-        try {
+  return (
+    <Layout>
+      <FirstMovieHero
+        firstMovie={firstMovie}
+        firstMovieImage={firstMovieImage}
+        firstMovieTrailer={trailer}
+      />
 
-            const options = {
-                method: "GET",
-                headers: {
-                    accept: "application/json",
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            };
-
-            const movieRes = await fetch(`${API_URL}/movie/popular?language=it-IT`, options);
-            const movieData = await movieRes.json();
-            setMovies(movieData.results || []);
-
-            const seriesRes = await fetch(`${API_URL}/tv/popular?language=it-IT`, options);
-            const seriesData = await seriesRes.json();
-            setSeries(seriesData.results || []);
-            setFirstMovie(movieData.results[0]);
-
-            const firstMovieRes = await fetch(`${API_URL}/movie/${movieData.results[0].id}/images`, options);
-            const firstMovieData = await firstMovieRes.json();
-            const firstMovieImageRaw = firstMovieData.backdrops.find(image => image.height >= 1500);
-
-            const firstMovieVideos = await fetch(`${API_URL}/movie/${movieData.results[0].id}/videos`, options);
-            const videosData = await firstMovieVideos.json();
-            console.log(videosData);
-            const trailerRaw = videosData.results.find(video => video.type === "Trailer" && video.size === 1080 && video.site === "YouTube");
-            console.log("https://www.youtube.com/watch?v=" + trailerRaw.key);
-            setTrailer(trailerRaw.key);
-
-            const firstMovideDetails = await fetch(`${API_URL}/movie/${movieData.results[0].id}`, options);
-            setFirstMovieImage(firstMovieImageRaw.file_path);
-
-
-
-        } catch (error) {
-            console.error("Errore nel fetch dei dati TMDB:", error);
-        }
-    };
-
-    useEffect(() => {
-
-        fetchData();
-    }, []);
-
-    console.log(trailer);
-    console.log(firstMovie);
-    console.log(movies);
-
-    return (
-
-        <Layout>
-            <div className="h-fit w-full">
-                <FirstMovieHero firstMovie={firstMovie} firstMovieImage={firstMovieImage} firstMovieTrailer={trailer} />
-            </div>
-
-            <div className="container px-3 mx-auto">
-                <section>
-                    <h3 className="text-3xl font-bold mb-4 text-white">Migliori film <span className="text-red-500 font-bold"> trending</span></h3>
-                    <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-                        {movies.map((movie) => (
-                            <Card key={movie.id} name={movie.name} image={movie.poster_path} />
-                        ))}
-                    </div>
-                </section>
-
-                <section>
-                    <h3 className="text-3xl font-bold mb-4 text-white">Migliori Serie TV <span className="text-red-500 font-bold"> trending</span></h3>
-                    <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-                        {series.map((tv) => (
-                            <Card key={tv.id} name={tv.name} image={tv.poster_path} />
-                        ))}
-                    </div>
-                </section>
-            </div>
-        </Layout>
-    );
+      <div className="container px-3 mx-auto">
+        <section>
+          <h3 className="text-3xl font-bold mb-4 text-white">
+            Migliori film <span className="text-red-500 font-bold"> trending</span>
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+            {movies.map(movie => (
+              <Card
+                key={movie.id}
+                id={movie.id}
+                name={movie.title}
+                image={movie.poster_path}
+              />
+            ))}
+          </div>
+        </section>
+      </div>
+    </Layout>
+  );
 }

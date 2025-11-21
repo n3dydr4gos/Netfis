@@ -13,3 +13,22 @@ body {
 section {
     padding: 10rem 0;
 }
+
+.swiper {
+  --swiper-navigation-color: red;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  top: 50%;
+  transform: translateY(-50%);
+  color: red;
+}
+
+.swiper-button-prev {
+  left: 0;
+}
+
+.swiper-button-next {
+  right: 0;
+}
