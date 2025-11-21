@@ -30,7 +30,7 @@ export function MediaProvider({ children }) {
       // Film principale
 
       const randomIndex = Math.floor(Math.random() * moviesData.length);
-      const first = moviesData[4];
+      const first = moviesData[randomIndex];
       setFirstMovie(first);
 
       const images = await getMovieImages(first.id);
