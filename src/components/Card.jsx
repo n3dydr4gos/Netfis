@@ -8,7 +8,7 @@ export default function Card({ id, image, name, opera }) {
         <>
             <div
                 id={id}
-                className="text-red-500 rounded-xl shadow-lg h-fit py-4 hover:scale-105 transition-all cursor-pointer"
+                className="w-full flex flex-col text-red-500 rounded-xl shadow-lg h-fit py-4 hover:scale-105 transition-all cursor-pointer"
                 onClick={() => setIsOpen(true)}
             >
                 <img
@@ -16,6 +16,7 @@ export default function Card({ id, image, name, opera }) {
                     alt={name}
                     className="rounded-4xl h-full shadow-lg hover:shadow-gray-800"
                 />
+                <h4 className="text-white text-center pt-2">{name}</h4>
             </div>
 
             {isOpen && (
