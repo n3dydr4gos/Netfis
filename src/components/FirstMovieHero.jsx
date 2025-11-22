@@ -29,6 +29,7 @@ export default function FirstMovieHero({ firstMovie, firstMovieImage, firstMovie
 
                     <div className="absolute inset-0 top-0 left-0 w-4/5 bg-linear-to-r from-black to-transparent z-10 opacity-0 lg:opacity-100"></div>
                     <div className="absolute inset-y-0 top-0 right-0 w-1/2 bg-linear-to-l from-black to-transparent z-10 opacity-0 lg:opacity-100"></div>
+                    <div className="absolute bottom-0 right-0 w-full h-[55%] bg-linear-to-t from-black to-transparent z-10 opacity-0 lg:opacity-100"></div>
 
 
                     <iframe
