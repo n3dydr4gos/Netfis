@@ -17,7 +17,7 @@ export default function Homepage() {
                 firstMovieDetails={firstMovieDetails}
             />
 
-            <div className="container px-3 mx-auto">
+            <div className="container mx-auto">
                 <section>
                     <h3 className="text-3xl font-bold mb-4 text-white">
                         Migliori film <span className="text-red-500 font-bold"> trending</span>

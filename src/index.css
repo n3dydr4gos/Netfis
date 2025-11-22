@@ -10,6 +10,10 @@ body {
     background-color: black;
 }
 
+section {
+  padding: 3rem 1rem;
+}
+
 .swiper {
   --swiper-navigation-color: red;
 }

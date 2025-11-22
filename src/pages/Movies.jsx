@@ -46,7 +46,7 @@ export default function Movies() {
 
   return (
     <Layout>
-      <div className="h-full bg-[#181818] px-4 md:px-12 md:pt-12">
+      <section className="h-full bg-[#181818] md:px-12 md:pt-12">
         <h2 className="text-5xl font-extrabold py-4">
           Film popolari per categoria
         </h2>
@@ -90,7 +90,7 @@ export default function Movies() {
             </div>
           </div>
         ))}
-      </div>
+      </section>
     </Layout>
   );
 }
