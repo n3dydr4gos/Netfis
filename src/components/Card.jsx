@@ -7,8 +7,6 @@ export default function Card({ id, image, name, type }) {
     const [opera, setOpera] = useState([]);
 
     async function getDetails() {
-        // support different prop names: media_type | type | isSeries
-
         const details = type == "serie" ? await getSerieDetails(id) : await getMovieDetails(id);
         setOpera(details);
         return details;
@@ -24,7 +22,7 @@ export default function Card({ id, image, name, type }) {
                 <img
                     src={`https://image.tmdb.org/t/p/original/${image}`}
                     alt={name}
-                    className="rounded-4xl h-full shadow-lg hover:shadow-gray-800"
+                    className="w-full h-[200px] md:h-[400px] object-cover rounded-xl shadow-lg hover:shadow-gray-800"
                 />
                 <h4 className="text-white text-center pt-2">{name}</h4>
             </div>

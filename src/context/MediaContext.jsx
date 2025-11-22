@@ -5,6 +5,7 @@ import {
   getMovieImages,
   getMovieVideos,
   getMovieDetails,
+  getMovieGenres,
 } from "../services/api";
 
 const MediaContext = createContext();
@@ -18,40 +19,34 @@ export function MediaProvider({ children }) {
   const [firstMovieImage, setFirstMovieImage] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [genres, setGenres] = useState([]);
 
   const fetchAll = async () => {
     try {
       const moviesData = await getPopularMovies();
       const seriesData = await getPopularSeries();
+      const genresData = await getMovieGenres();
 
       setMovies(moviesData);
       setSeries(seriesData);
-
-      // Film principale
+      setGenres(genresData);
 
       const randomIndex = Math.floor(Math.random() * moviesData.length);
       const first = moviesData[randomIndex];
       setFirstMovie(first);
 
       const images = await getMovieImages(first.id);
-      const bigImage = images.backdrops.find(img => img.height >= 1500);
+      const bigImage = images.backdrops.find((img) => img.height >= 1500);
       setFirstMovieImage(bigImage?.file_path);
 
       const videos = await getMovieVideos(first.id);
       const trailer = videos.results.find(
-        v => v.type === "Trailer" && v.site === "YouTube"
+        (v) => v.type === "Trailer" && v.site === "YouTube"
       );
       setTrailer(trailer?.key);
 
       const firstDetails = await getMovieDetails(first.id);
       setFirstMovieDetails(firstDetails);
-      console.log(firstDetails);
-      
-      
-
-
-
-
     } catch (e) {
       console.error("Errore nel fetch:", e);
     } finally {
@@ -73,6 +68,7 @@ export function MediaProvider({ children }) {
         trailer,
         loading,
         firstMovieDetails,
+        genres,
       }}
     >
       {children}
