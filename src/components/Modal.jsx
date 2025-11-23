@@ -82,7 +82,7 @@ function Modal({ opera, operaImage, setIsOpen }) {
           </div>
 
           {/* Bottone preferiti */}
-          <div className="m-auto pt-4">
+          <div className="mt-auto pt-8 flex justify-end items-center">
             <FavouriteButton opera={opera} />
           </div>
         </div>

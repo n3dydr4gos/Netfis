@@ -24,8 +24,8 @@ export default function FavouriteButton({ opera }) {
   return (
     <button
       onClick={toggleFavourite}
-      className={`flex items-center gap-2 transition-transform duration-300 cursor-pointer ${isFavourite ? "bg-white text-black" : "bg-red-700"} p-3 rounded-full ${
-        animate ? "scale-125" : "scale-100"
+      className={`flex items-center cursor-pointer font-bold bg-red-800 py-3 px-5 rounded-2xl w-fit gap-3 shadow-[2px_2px_30px] shadow-red-800 hover:shadow-[0px_0px_20px] hover:shadow-red-600 hover:scale-105 transition-all ${isFavourite ? "bg-white text-black shadow-white/30" : "bg-red-700"} p-3 rounded-full ${
+        animate ? "scale-105" : "scale-100"
       }`}
     >
       <Heart
