@@ -6,6 +6,7 @@ import Errorpage from "./pages/ErrorPage";
 import Movies from "./pages/Movies";
 import Series from "./pages/Series";
 import { FavouritesProvider } from "./context/FavouritesContext";
+import Details from "./pages/Details";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/favourites" element={<Favourites />} />
         <Route path="/series" element={<Series />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/details" element={<Details />} />
         <Route path="*" element={<Errorpage />} />
       </Routes>
     </FavouritesProvider>

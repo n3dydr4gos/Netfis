@@ -42,6 +42,18 @@ export async function getMovieDetails(movieId) {
   return data;
 }
 
+export async function getSerieImages(serieId) {
+  const res = await fetch(`${API_URL}/tv/${serieId}/images`, options);
+  const data = await res.json();
+  return data;
+}
+
+export async function getSerieVideos(serieId) {
+  const res = await fetch(`${API_URL}/tv/${serieId}/videos`, options);
+  const data = await res.json();
+  return data;
+}
+
 export async function getSerieDetails(serieId) {
   const res = await fetch(`${API_URL}/tv/${serieId}?language=it-IT`, options);
   const data = await res.json();
@@ -69,6 +81,17 @@ export async function searchMulti(query) {
     options
   );
 
+  const data = await res.json();
+  return data.results || [];
+}
+
+export async function similarOperaFunction(genres, type) {
+  const endpoint = type === "film" ? "movie" : "tv";
+  const genreIds = genres.map(g => g.id).join("|");
+  const res = await fetch(
+    `${API_URL}/discover/${endpoint}?with_genres=${genreIds}&language=it-IT`,
+    options
+  );
   const data = await res.json();
   return data.results || [];
 }
