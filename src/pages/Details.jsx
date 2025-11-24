@@ -21,6 +21,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import Card from "../components/Card";
+import TecnicalInfoDetails from "../components/TecnicalInfoDetails";
+import Actor from "../components/Actor";
+import Selector from "../components/Selector";
+import Loader from "../components/Loader";
 
 
 
@@ -32,6 +36,8 @@ export default function Details() {
     const [video, setVideo] = useState(null);
     const [image, setImage] = useState(null);
     const [similarOpera, setSimilarOpera] = useState(null);
+
+
 
     // --- Fetch dettagli principali ---
     useEffect(() => {
@@ -78,21 +84,24 @@ export default function Details() {
         fetchSimilar();
     }, [opera]);
 
-    if (!video) {
-        setVideo("GV3HUDMQ-F8");
-    }
+    useEffect(() => {
+        if (!video) {
+            setVideo("GV3HUDMQ-F8");
+        }
+    }, [video]);
+
+
 
     // --- Loading state ---
-    if (!details || !image || !video) {
+    if (!details || !image ) {
         return (
-            <Layout>
-                <p>Loading...</p>
-            </Layout>
+            <Loader />
         );
     }
 
     return (
         <Layout>
+
             <div className="relative flex items-center min-h-fit lg:h-[70vh] flex-col lg:flex-row 2xl:h-screen w-full overflow-hidden mx-auto px-10 lg:px-56">
                 {/* Background image */}
                 <img
@@ -154,7 +163,55 @@ export default function Details() {
 
             </div>
 
-            {/* Se vuoi mostrare similarOpera */}
+            {!opera.title && (
+                <div className="mt-10 px-10 lg:px-56">
+                    {/* SELEZIONE STAGIONE */}
+                    <h3 className="text-white font-bold text-2xl mb-4">Episodi</h3>
+
+                    <Selector opera={opera} />
+
+                </div>
+            )}
+
+            {/* CAST */}
+            {details.credits?.cast && details.credits.cast.length > 0 && (
+                <div className="mt-16 px-10 lg:px-56">
+                    <h3 className="text-white font-bold text-2xl mb-4">Cast principale</h3>
+
+                    <Swiper
+                        modules={[Navigation]}
+                        spaceBetween={20}
+                        slidesPerView={3}
+                        navigation
+                        breakpoints={{
+                            640: { slidesPerView: 5 },
+                            768: { slidesPerView: 6 },
+                            1024: { slidesPerView: 7 },
+                        }}
+                    >
+                        {details.credits.cast.slice(0, 12).map((actor) => (
+                            <SwiperSlide key={actor.id}>
+                                <Actor actor={actor} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+            )}
+
+            {/* INFO TECNICHE */}
+            <div className="mt-16 px-10 lg:px-56 text-white">
+                <h3 className="font-bold text-2xl mb-6">Dettagli tecnici</h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 opacity-90">
+
+                    <TecnicalInfoDetails details={details} />
+
+
+                </div>
+            </div>
+
+
+            {/* Opere simili */}
             {similarOpera && similarOpera.length > 0 && (
                 <div className="mt-10 px-10 lg:px-56">
                     <h3 className="text-white font-bold text-2xl mb-4">
@@ -170,9 +227,9 @@ export default function Details() {
                         pagination={{ clickable: true }}
                         breakpoints={{
                             640: { slidesPerView: 2 },
-                            768: { slidesPerView: 4 },
-                            1024: { slidesPerView: 6 },
-                            1280: { slidesPerView: 8 },
+                            768: { slidesPerView: 3 },
+                            1024: { slidesPerView: 3 },
+                            1280: { slidesPerView: 4 },
                         }}
                     >
                         {similarOpera.map(item => (
@@ -184,6 +241,8 @@ export default function Details() {
 
                 </div>
             )}
+
+
 
         </Layout>
     );

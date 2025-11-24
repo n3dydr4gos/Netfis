@@ -35,12 +35,13 @@ export async function getMovieVideos(movieId) {
 
 export async function getMovieDetails(movieId) {
   const res = await fetch(
-    `${API_URL}/movie/${movieId}?language=it-IT`,
+    `${API_URL}/movie/${movieId}?language=it-IT&append_to_response=videos,images,credits,keywords`,
     options
   );
   const data = await res.json();
   return data;
 }
+
 
 export async function getSerieImages(serieId) {
   const res = await fetch(`${API_URL}/tv/${serieId}/images`, options);
@@ -55,10 +56,19 @@ export async function getSerieVideos(serieId) {
 }
 
 export async function getSerieDetails(serieId) {
-  const res = await fetch(`${API_URL}/tv/${serieId}?language=it-IT`, options);
+  const res = await fetch(`${API_URL}/tv/${serieId}?language=it-IT&append_to_response=videos,images,credits,keywords`, options);
   const data = await res.json();
   return data;
 }
+
+export async function getSeasonDetails(tvId, seasonNumber) {
+  const res = await fetch(
+    `${API_URL}/tv/${tvId}/season/${seasonNumber}?language=it-IT`,
+    options
+  );
+  return res.json();
+}
+
 
 export async function getMovieGenres() {
   const res = await fetch(
