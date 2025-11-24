@@ -36,13 +36,32 @@ export function MediaProvider({ children }) {
       setFirstMovie(first);
 
       const images = await getMovieImages(first.id);
-      const bigImage = images.backdrops.find((img) => img.height >= 1500);
+      let bigImage = images.backdrops.find((img) => img.height >= 1500);
+
+      // Se non ne trova una >= 1500, prende quella con l’altezza maggiore
+      if (!bigImage) {
+        bigImage = images.backdrops.reduce((max, img) => {
+          return img.height > max.height ? img : max;
+        });
+      }
+
       setFirstMovieImage(bigImage?.file_path);
 
       const videos = await getMovieVideos(first.id);
-      const trailer = videos.results.find(
+
+      // Cerca il trailer YouTube specifico
+      let trailer = videos.results.find(
         (v) => v.type === "Trailer" && v.site === "YouTube"
       );
+
+      // Se non esiste, prende un video YouTube a caso
+      if (!trailer) {
+        const youtubeVideos = videos.results.filter((v) => v.site === "YouTube");
+        if (youtubeVideos.length > 0) {
+          trailer = youtubeVideos[Math.floor(Math.random() * youtubeVideos.length)];
+        }
+      }
+
       setTrailer(trailer?.key);
 
       const firstDetails = await getMovieDetails(first.id);

@@ -7,6 +7,7 @@ export default function FirstMovieHero({ firstMovie, firstMovieImage, firstMovie
 
     const [isOpen, setIsOpen] = useState(false);
 
+    console.log("FirstMovieHero props:", { firstMovie, firstMovieImage, firstMovieTrailer, firstMovieDetails });
     return (
         <>
             {/* MODALE (fuori dal contenitore principale) */}
@@ -14,7 +15,7 @@ export default function FirstMovieHero({ firstMovie, firstMovieImage, firstMovie
                 <Modal opera={firstMovieDetails} operaImage={firstMovieImage} setIsOpen={setIsOpen} />
             )}
 
-            {firstMovie && firstMovieImage && firstMovieTrailer && (
+            {firstMovie && firstMovieImage && firstMovieTrailer && firstMovieDetails && (
                 <div className="relative flex items-center min-h-fit lg:h-[70vh]  flex-col lg:flex-row 2xl:h-screen w-full overflow-hidden mx-auto px-10 lg:px-56 ">
                     {/* Background image */}
                     <figure>

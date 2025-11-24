@@ -65,12 +65,7 @@ export default function Details() {
         };
 
         fetchData();
-    }, [opera]);
-
-    // --- Fetch similar opera ---
-    useEffect(() => {
-        if (!opera) return;
-
+        
         const fetchSimilar = async () => {
             try {
                 const result = await similarOperaFunction(opera.genres, opera.title ? "film" : "tv");

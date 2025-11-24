@@ -1,5 +1,6 @@
+import { Link } from "react-router";
 
-export default function Button({ type, className, children, onClick }) {
+export default function Button({ type, className, children, onClick, operaProp, setIsOpen }) {
     return (
         <>
             {!type && (
@@ -18,6 +19,10 @@ export default function Button({ type, className, children, onClick }) {
                 <button onClick={onClick} className={`cursor-pointer absolute top-4 right-4 w-10 h-10 rounded-full bg-red-800 hover:bg-white hover:text-red-600 flex items-center justify-center text-white text-l hover:scale-105 transition-all ${className}`}>
                     ✕
                 </button>
+            )}
+
+            {type === "details" && (
+                <Link to={"/details"} state={{ opera: operaProp }} onClick={() => { setIsOpen(false), window.scrollTo(0, 0) }} className={`flex items-center cursor-pointer text-white font-bold bg-transparent border-2 border-white py-3 px-5 rounded-2xl w-fit gap-3 shadow-lg shadow-gray-700 hover:shadow-[0px_0px_30px] hover:shadow-gray-400 hover:scale-105 transition-all ${className}`}>{children}</Link>
             )}
         </>
     );
