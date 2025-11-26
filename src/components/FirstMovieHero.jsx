@@ -44,10 +44,10 @@ export default function FirstMovieHero({ movie, image, trailer, details }) {
             {firstMovieDescription}
           </h3>
           <div className="flex flex-col gap-4 md:flex-row my-10">
-            <Button>
+            <Button className={"w-full md:w-auto justify-center md:justify-self-auto"}>
               <Play /> Guarda ora
             </Button>
-            <Button type="secondary" onClick={() => setIsOpen(true)}>
+            <Button type="secondary" onClick={() => setIsOpen(true)} className={"w-full md:w-auto justify-center md:justify-self-auto"}>
               Altre informazioni
             </Button>
           </div>

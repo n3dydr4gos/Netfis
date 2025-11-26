@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Layout from "../Layouts/Layout";
+import Button from "../components/Button";
 
 export default function Errorpage() {
   return (
@@ -12,9 +13,8 @@ export default function Errorpage() {
         </p>
         <Link
           to="/"
-          className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-md font-medium"
-        >
-          Torna alla home
+          >
+          <Button>Torna alla home</Button>
         </Link>
       </div>
     </Layout>
