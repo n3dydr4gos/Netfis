@@ -24,9 +24,13 @@ export function FavouritesProvider({ children }) {
 
   const isFavourite = (id) => favourites.some((f) => f.id === id);
 
+  function getFavouritesCount() {
+    return favourites.length;
+  }
+
   return (
     <FavouritesContext.Provider
-      value={{ favourites, addFavourite, removeFavourite, isFavourite }}
+      value={{ favourites, addFavourite, removeFavourite, isFavourite, getFavouritesCount }}
     >
       {children}
     </FavouritesContext.Provider>

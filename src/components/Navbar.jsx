@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import { Search, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/netfis_nobg.png";
+import { FavouritesProvider, useFavourites } from "../context/FavouritesContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const { getFavouritesCount } = useFavourites();
 
   useEffect(() => {
     document.body.classList.toggle("no-scroll", menuOpen);
@@ -49,7 +52,9 @@ export default function Navbar() {
                 className="hover:text-white transition"
                 onClick={() => navigate()}
               >
-                Preferiti
+                <div className="relative">Preferiti {getFavouritesCount() >= 1 && (
+                  <span className="absolute -top-1 -right-4 text-white rounded-4xl bg-red-800 p-2 text-xs h-4 w-4 items-center flex justify-center animate-bounce transition-all"> {getFavouritesCount()} </span>)}
+                </div>
               </Link>
             </li>
           </ul>
@@ -103,18 +108,16 @@ export default function Navbar() {
 
       {/* Mobile menu overlay */}
       <div
-        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${
-          menuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${menuOpen
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
+          }`}
         inert={!menuOpen ? true : undefined}
       >
         {/* Slide-in panel */}
         <aside
-          className={`absolute top-0 right-0 w-64 bg-black/90 backdrop-blur-xl z-50 transform transition-transform duration-300 ${
-            menuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`absolute top-0 right-0 w-64 bg-black/90 backdrop-blur-xl z-50 transform transition-transform duration-300 ${menuOpen ? "translate-x-0" : "translate-x-full"
+            }`}
         >
           <div className="p-6 flex flex-col">
             <nav className="flex-1">
@@ -143,7 +146,9 @@ export default function Navbar() {
                     onClick={() => navigate()}
                     className="block py-2 px-1 text-lg"
                   >
-                    Preferiti
+                    <div className="relative">Preferiti {getFavouritesCount() >= 1 && (
+                      <span className="absolute top-0 left-15 text-white rounded-4xl bg-red-800 p-2 text-xs h-4 w-4 items-center flex justify-center animate-bounce transition-all"> {getFavouritesCount()} </span>)}
+                    </div>
                   </Link>
                 </li>
               </ul>
