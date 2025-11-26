@@ -2,11 +2,11 @@ import {Route, Routes } from "react-router";
 import Homepage from "./pages/Homepage";
 import Favourites from "./pages/Favourites";
 import Search from "./pages/SearchModal";
-import Errorpage from "./pages/ErrorPage";
 import Movies from "./pages/Movies";
 import Series from "./pages/Series";
 import { FavouritesProvider } from "./context/FavouritesContext";
 import Details from "./pages/Details";
+import Errorpage from "./pages/Errorpage";
 
 export default function App() {
   return (
