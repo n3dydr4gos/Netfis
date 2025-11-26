@@ -151,11 +151,11 @@ export default function Details() {
                     <h3 className="text-white text-md leading-relaxed drop-shadow-md mb-4">{details.overview}</h3>
 
                     {/* Pulsanti */}
-                    <div className="flex flex-col gap-4 md:flex-row my-10">
-                        <Button className={"w-full md:w-auto justify-center md:justify-self-auto"}>
+                    <div className="flex flex-col gap-4 sm:flex-row my-10">
+                        <Button className={"w-full sm:w-auto justify-center sm:justify-self-auto"}>
                             <Play /> Guarda ora
                         </Button>
-                        <FavouriteButton className={"bg-transparent border-white border-2  w-full md:w-auto justify-center md:justify-self-auto"} opera={opera} />
+                        <FavouriteButton className={"bg-transparent border-white border-2  w-full sm:w-auto justify-center sm:justify-self-auto"} opera={opera} />
 
                     </div>
                 </div>
@@ -166,7 +166,7 @@ export default function Details() {
             {!opera.title && (
                 <div className="mt-10 px-10 lg:px-56">
                     {/* SELEZIONE STAGIONE */}
-                    <h3 className="text-white font-bold text-2xl mb-4">Episodi</h3>
+                    <h3 className="text-white font-bold text-2xl mb-4 ms-3">Episodi</h3>
 
                     <Selector opera={opera} />
 
@@ -231,6 +231,7 @@ export default function Details() {
                             1024: { slidesPerView: 3 },
                             1280: { slidesPerView: 4 },
                         }}
+                        className="min-h-100 h-fit"
                     >
                         {similarOpera.map(item => (
                             <SwiperSlide key={item.id}>

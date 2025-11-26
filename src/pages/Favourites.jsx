@@ -26,7 +26,7 @@ export default function Favourites() {
   return (
     <Layout>
       <section className="container mx-auto py-12">
-        <h2 className="text-5xl font-extrabold py-4">I tuoi preferiti</h2>
+        <h2 className="text-5xl font-extrabold py-8">I tuoi preferiti</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {favourites.map((item) => {
             return (

@@ -46,35 +46,37 @@ export default function Selector({ opera }) {
     <>
       {opera.number_of_seasons > 1 && (
         <div className="text-white">
-          <label className="text-xl">Seleziona Stagione: </label>
-          <select
-            value={selectedSeason}
-            onChange={(e) => setSelectedSeason(Number(e.target.value))}
-            className="text-white bg-gray-700 px-3 py-1 rounded-lg mx-3"
-          >
-            {Array.from(
-              { length: opera.number_of_seasons },
-              (_, i) => i + 1
-            ).map((num) => (
-              <option key={num} value={num}>
-                Stagione {num}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center justify-start flex-wrap w-full">
+            <label className="text-lg px-3">Seleziona Stagione: </label>
+            <select
+              value={selectedSeason}
+              onChange={(e) => setSelectedSeason(Number(e.target.value))}
+              className="text-white bg-gray-700 px-3 py-1 rounded-lg mx-3 w-fit"
+            >
+              {Array.from(
+                { length: opera.number_of_seasons },
+                (_, i) => i + 1
+              ).map((num) => (
+                <option key={num} value={num}>
+                  Stagione {num}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       )}
 
       {loadingSeason ? (
         <p className="text-white mt-4">Caricamento episodi...</p>
       ) : seasonDetails?.episodes?.length > 0 ? (
-        <div className="mt-6 grid grid-cols-1 xl:grid-cols-2">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2">
           {seasonDetails.episodes.map((ep) => {
             const fullText = ep.overview || "Nessuna descrizione disponibile";
             const isExpanded = expandedEpisodes[ep.id] || false;
             const isTooLong = fullText.length > MAX_CHARS;
 
             return (
-              <div key={ep.id} className="flex gap-4 mb-6 p-3 rounded">
+              <div key={ep.id} className="flex gap-5 grid grid-cols-1 2xl:grid-cols-2 mb-6 p-5 rounded">
                 <img
                   src={
                     ep.still_path
@@ -82,10 +84,10 @@ export default function Selector({ opera }) {
                       : fallbackImg
                   }
                   alt={ep.name || "Episodio senza titolo"}
-                  className="w-48 h-28 object-cover rounded"
+                  className="w-full object-cover rounded-xl shadow-lg lg:max-h-50"
                 />
 
-                <div className="text-white flex flex-col">
+                <div className="text-white flex flex-col 2xl:me-10">
                   <h4 className="font-bold">
                     Episodio {ep.episode_number}: {ep.name}
                   </h4>

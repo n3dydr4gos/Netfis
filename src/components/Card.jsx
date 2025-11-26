@@ -32,7 +32,7 @@ export default function Card({ id, image, name, type, className }) {
           alt={name}
           className="w-full h-full object-cover  rounded-xl shadow-lg hover:shadow-lg group-hover:shadow-red-900 transition-shadow duration-300"
         />
-        <h4 className="text-white text-center p-2 pb-0  transition-all duration-300">{name}</h4>
+        <h4 className="text-white text-center p-2 pb-0 transition-all duration-300 text-nowrap">{name}</h4>
       </div>
 
       {isOpen && opera && (
