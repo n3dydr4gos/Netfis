@@ -14,10 +14,7 @@ export const useMedia = () => useContext(MediaContext);
 export function MediaProvider({ children }) {
   const [movies, setMovies] = useState([]);
   const [series, setSeries] = useState([]);
-  const [firstMovie, setFirstMovie] = useState(null);
-  const [firstMovieDetails, setFirstMovieDetails] = useState(null);
-  const [firstMovieImage, setFirstMovieImage] = useState(null);
-  const [trailer, setTrailer] = useState(null);
+  const [hero, setHero] = useState(null);
   const [loading, setLoading] = useState(true);
   const [genres, setGenres] = useState([]);
 
@@ -31,41 +28,46 @@ export function MediaProvider({ children }) {
       setSeries(seriesData);
       setGenres(genresData);
 
-      const randomIndex = Math.floor(Math.random() * moviesData.length);
-      const first = moviesData[randomIndex];
-      setFirstMovie(first);
-
-      const images = await getMovieImages(first.id);
-      let bigImage = images.backdrops.find((img) => img.height >= 1500);
-
-      // Se non ne trova una >= 1500, prende quella con l’altezza maggiore
-      if (!bigImage) {
-        bigImage = images.backdrops.reduce((max, img) => {
-          return img.height > max.height ? img : max;
-        });
+      // Filtra solo i film che hanno una descrizione
+      const moviesWithOverview = moviesData.filter(
+        (movie) => movie.overview && movie.overview.trim() !== ""
+      );
+      if (moviesWithOverview.length === 0) {
+        console.warn("Nessun film con descrizione disponibile");
+        setHero(null);
+        return;
       }
 
-      setFirstMovieImage(bigImage?.file_path);
+      const randomIndex = Math.floor(Math.random() * moviesWithOverview.length);
+      const first = moviesWithOverview[randomIndex];
 
-      const videos = await getMovieVideos(first.id);
+      const [images, videos, details] = await Promise.all([
+        getMovieImages(first.id),
+        getMovieVideos(first.id),
+        getMovieDetails(first.id),
+      ]);
 
-      // Cerca il trailer YouTube specifico
+      let bigImage = images.backdrops.find((img) => img.height >= 1500);
+      if (!bigImage) {
+        bigImage = images.backdrops.reduce((max, img) =>
+          img.height > max.height ? img : max
+        );
+      }
+
       let trailer = videos.results.find(
         (v) => v.type === "Trailer" && v.site === "YouTube"
       );
-
-      // Se non esiste, prende un video YouTube a caso
       if (!trailer) {
-        const youtubeVideos = videos.results.filter((v) => v.site === "YouTube");
-        if (youtubeVideos.length > 0) {
-          trailer = youtubeVideos[Math.floor(Math.random() * youtubeVideos.length)];
-        }
+        const yt = videos.results.filter((v) => v.site === "YouTube");
+        trailer = yt[Math.floor(Math.random() * yt.length)];
       }
 
-      setTrailer(trailer?.key);
-
-      const firstDetails = await getMovieDetails(first.id);
-      setFirstMovieDetails(firstDetails);
+      setHero({
+        movie: first,
+        image: bigImage?.file_path,
+        trailer: trailer?.key,
+        details,
+      });
     } catch (e) {
       console.error("Errore nel fetch:", e);
     } finally {
@@ -82,12 +84,9 @@ export function MediaProvider({ children }) {
       value={{
         movies,
         series,
-        firstMovie,
-        firstMovieImage,
-        trailer,
-        loading,
-        firstMovieDetails,
         genres,
+        hero,
+        loading,
       }}
     >
       {children}

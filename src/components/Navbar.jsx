@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Search, User } from "lucide-react";
 import { Link } from "react-router-dom";
-import Logo from "../assets/netfis_nobg.png";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -59,7 +58,7 @@ export default function Navbar() {
         <div className="flex md:justify-center w-full">
           <Link to="/" onClick={() => navigate()}>
             <img
-              src={Logo}
+              src="/netfis_nobg.svg"
               alt="Netfis logo"
               className="w-full h-28 object-contain object-center"
             />
@@ -68,15 +67,13 @@ export default function Navbar() {
 
         {/* Right actions (desktop) */}
         <div className="hidden w-full md:flex ms-auto items-center justify-end gap-6 ">
-          <Link to="/search" onClick={() => navigate()} className="flex items-center gap-2 border-2 py-1 px-4 rounded-full">
+          <Link
+            to="/search"
+            onClick={() => navigate()}
+            className="flex items-center gap-2 border-2 py-1 px-4 rounded-full"
+          >
             <Search size={16} /> Cerca
           </Link>
-          <a
-            className="flex items-center gap-2 hover:text-white transition"
-            href="#"
-          >
-            <User size={18} />
-          </a>
         </div>
         <div className="md:hidden w-full flex justify-end">
           <button
@@ -153,19 +150,6 @@ export default function Navbar() {
               <div className="flex flex-col gap-3 text-gray-300">
                 <Link to={"/search"} className="flex items-center gap-2 py-2">
                   <Search size={16} /> Cerca
-                </Link>
-                <a href="#" className="flex items-center gap-2 py-2">
-                  <User size={18} /> Account
-                </a>
-              </div>
-
-              <div className="mt-6">
-                <Link
-                  to="/login"
-                  onClick={() => navigate()}
-                  className="block w-full text-center py-2 border border-zinc-700 rounded text-sm"
-                >
-                  Accedi
                 </Link>
               </div>
             </div>

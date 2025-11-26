@@ -5,27 +5,19 @@ import FirstMovieHero from "../components/FirstMovieHero";
 import Loader from "../components/Loader";
 
 export default function Homepage() {
-  const {
-    movies,
-    series,
-    firstMovie,
-    firstMovieImage,
-    trailer,
-    loading,
-    firstMovieDetails,
-  } = useMedia();
+  const { movies, series, hero, loading } = useMedia();
 
   if (loading) return <Loader />;
+  if (!hero) return null;
 
   return (
     <Layout>
       <FirstMovieHero
-        firstMovie={firstMovie}
-        firstMovieImage={firstMovieImage}
-        firstMovieTrailer={trailer}
-        firstMovieDetails={firstMovieDetails}
+        movie={hero.movie}
+        image={hero.image}
+        trailer={hero.trailer}
+        details={hero.details}
       />
-
       <div className="container mx-auto ">
         <section>
           <h3 className="text-3xl font-bold mb-4 text-white">
