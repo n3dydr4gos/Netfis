@@ -42,6 +42,7 @@ export default function SearchModal() {
               placeholder="Nome del film/serie..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              autoFocus
             />
             <button className="bg-red-600 px-4 py-2 rounded hover:bg-red-700 cursor-pointer">
               <Search size={16} />

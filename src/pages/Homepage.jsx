@@ -8,15 +8,12 @@ import FirstMovieHero from "../components/FirstMovieHero";
 import Loader from "../components/Loader";
 import { Navigation } from "swiper/modules";
 
-
-
 export default function Homepage() {
-  const { movies, series, hero, loading, homeOpera } = useMedia();
+  const { hero, loading, homeOpera } = useMedia();
 
   if (loading) return <Loader />;
   if (!hero) return null;
 
-  console.log(homeOpera);
   return (
     <Layout>
       <FirstMovieHero
@@ -75,8 +72,6 @@ export default function Homepage() {
             </div>
           </div>
         ))}
-
-
       </div>
     </Layout>
   );

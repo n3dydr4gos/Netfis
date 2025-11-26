@@ -7,9 +7,10 @@ export default function Card({ id, image, name, type, className, backdrop }) {
   const [isOpen, setIsOpen] = useState(false);
   const [opera, setOpera] = useState(null);
 
- const imageUrl = image ? `https://image.tmdb.org/t/p/original/${image}` : FallbackImage;
+  const imageUrl = image
+    ? `https://image.tmdb.org/t/p/original/${image}`
+    : FallbackImage;
 
- console.log(type);
   async function getDetails() {
     const details =
       type === "serie" ? await getSerieDetails(id) : await getMovieDetails(id);
@@ -32,7 +33,9 @@ export default function Card({ id, image, name, type, className, backdrop }) {
           alt={name}
           className={`w-full h-full object-cover  rounded-xl shadow-lg hover:shadow-lg group-hover:shadow-red-900 transition-shadow duration-300 ${backdrop}`}
         />
-        <h4 className="text-white text-center p-2 pb-0 transition-all duration-300 whitespace-nowrap">{name}</h4>
+        <h4 className="text-white text-center p-2 pb-0 transition-all duration-300 whitespace-nowrap">
+          {name}
+        </h4>
       </div>
 
       {isOpen && opera && (
