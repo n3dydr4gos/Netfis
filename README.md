@@ -20,15 +20,16 @@ The project focuses on clean architecture, performance, and high-quality UX.
 
 ## 🚀 Technologies Used
 
-| Technology   | Version | Why it was chosen                      |
-| :----------- | :-----: | :------------------------------------- |
-| React        |   19+   | Component architecture, fast rendering |
-| Vite         |   7+    | Extremely fast dev server and builds   |
-| TailwindCSS  |   4+    | Rapid styling, minimal custom CSS      |
-| React Router |   7.9   | SPA routing, URL params handling       |
-| Swiper       |   12+   | Netflix-like sliders/carousels         |
-| Lucide React |  0.553  | Lightweight modern icons               |
-| TMDB API     |    —    | High-quality movie/series data         |
+| Technology    | Version | Why it was chosen                      |
+| :------------ | :-----: | :------------------------------------- |
+| React         |   19+   | Component architecture, fast rendering |
+| Vite          |   7+    | Extremely fast dev server and builds   |
+| TailwindCSS   |   4+    | Rapid styling, minimal custom CSS      |
+| React Router  |   7.9   | SPA routing, URL params handling       |
+| Swiper        |   12+   | Netflix-like sliders/carousels         |
+| Lucide React  |  0.553  | Lightweight modern icons               |
+| React Youtube |   10+   | Embedding YouTube videos easily, handle player events in React components |
+| TMDB API      |    —    | High-quality movie/series data         |
 
 Node recommended: **>= 22.0**
 
@@ -138,11 +139,13 @@ npm run dev
 
 ## 📦 External Libraries Justification
 
-- **TailwindCSS** — Faster UI building, utility-first approach
-- **Swiper** — Netflix-like horizontal sliders
-- **Lucide-react** — Lightweight, modern icon set
-- **React Router** — Dynamic routing for SPA pages
-- **React YouTube** — Embedding YouTube videos with React components
+| Libreria      | Problema risolto                                     | Perché necessaria (vs React puro)                            | Come integrata nel progetto                                      |
+| ------------- | ---------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------- |
+| TailwindCSS   | Velocizza la creazione di UI responsive e moderne    | Evita scrivere CSS personalizzato complesso e boilerplate    | Classi utility direttamente negli JSX dei componenti             |
+| Swiper        | Implementazione di slider/carousel Netflix-like      | React puro richiederebbe molto JS e logica per gestire swipe | Componente `<Swiper>` per carousels di film e serie              |
+| Lucide-react  | Icone moderne e leggere                              | React puro non ha libreria icone integrata                   | Icone importate e usate nei pulsanti, navbar e card              |
+| React Router  | Routing dinamico per SPA con parametri e navigazione | React puro richiede gestione manuale di URL e history        | `<BrowserRouter>`, `<Routes>` e `<Route>` nelle pagine           |
+| React YouTube | Embedding di video YouTube con API React             | React puro richiederebbe iframe manuali e gestione eventi    | Componente `<YouTube>` per trailer e video nelle pagine dettagli |
 
 ---
 
@@ -166,4 +169,4 @@ Open-source for educational and portfolio purposes.
 ## ✨ Authors
 
 - **Dragos Nedelcu** — [GitHub](https://github.com/n3dydr4gos) — nedydragos@gmail.com
-- **Davide Martinelli** — [GitHub](https://github.com/davide-its) — davide.martinelli15@gmail.com
+- **Davide Martinelli** — [GitHub](https://github.com/davide-its) — davide.martelli15@gmail.com
