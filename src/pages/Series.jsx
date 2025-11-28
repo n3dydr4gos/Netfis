@@ -68,7 +68,7 @@ export default function Series() {
                   >
                     {movies.map((movie) => (
                       <SwiperSlide key={movie.id}>
-                        <div className="px-3">
+                        <div>
                           <Card
                             id={movie.id}
                             type={movie.title ? "movie" : "serie"}
@@ -85,12 +85,12 @@ export default function Series() {
                   <Swiper
                     modules={[Navigation]}
                     spaceBetween={20}
-                    slidesPerView={Math.min(movies.length, 4.5)}
+                    slidesPerView={4.5}
                     navigation
                   >
                     {movies.map((movie) => (
                       <SwiperSlide key={movie.id}>
-                        <div className="p-3">
+                        <div>
                           <Card
                             id={movie.id}
                             type={movie.title ? "movie" : "serie"}

@@ -25,7 +25,7 @@ export default function Homepage() {
       <div className="container mx-auto px-3 py-10">
         {homeOpera.map((opera, index) => (
           <div className="py-4" key={index}>
-            <h3 className="font-semibold text-3xl pb-5">{opera.label}</h3>
+            <h3 className="font-semibold text-3xl pb-5 px-3">{opera.label}</h3>
             {/* MOBILE */}
             <div className="flex md:hidden gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
               <Swiper
