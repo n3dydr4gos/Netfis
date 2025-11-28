@@ -9,14 +9,14 @@ export default function Favourites() {
   if (favourites.length === 0)
     return (
       <Layout>
-        <section className="text-white text-center py-20">
+        <section className="text-white text-center py-20 min-h-[70vh] flex justify-center items-center gap-1">
           <span>Nessun film o serie tra i preferiti. Vai nella pagina dei</span>
           <Link to={"/movies"} className="text-red-600 font-bold">
-            <span>Film</span>
+            <span> Film </span>
           </Link>
           <span> o delle </span>
           <Link to={"/series"} className="text-red-600 font-bold">
-            <span>Serie</span>
+            <span> Serie </span>
           </Link>
           <span> e aggiungi i tuoi preferiti!</span>
         </section>
@@ -25,7 +25,7 @@ export default function Favourites() {
 
   return (
     <Layout>
-      <section className="container mx-auto py-12">
+      <section className="container mx-auto py-12 min-h-[70vh]">
         <h2 className="text-5xl font-extrabold py-8">I tuoi preferiti</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {favourites.map((item) => {

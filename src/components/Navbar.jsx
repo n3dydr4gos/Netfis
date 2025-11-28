@@ -1,19 +1,15 @@
 import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useFavourites } from "../context/FavouritesContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const { getFavouritesCount } = useFavourites();
 
   useEffect(() => {
     document.body.classList.toggle("no-scroll", menuOpen);
-
-    return () => {
-      document.body.classList.remove("no-scroll");
-    };
+    return () => document.body.classList.remove("no-scroll");
   }, [menuOpen]);
 
   function navigate() {
@@ -21,47 +17,56 @@ export default function Navbar() {
     setMenuOpen(false);
   }
 
+  const navLinkClass = ({ isActive }) =>
+    `relative hover:text-white transition
+     after:content-[''] after:absolute after:left-0 after:-bottom-1
+     after:h-[2px] after:w-full after:bg-red-600 after:rounded-full
+     ${isActive ? "after:opacity-100" : "after:opacity-0"}`;
+
+  const mobileNavLinkClass = ({ isActive }) =>
+    `block py-2 px-1 text-lg relative
+     after:content-[''] after:absolute after:left-0 after:bottom-0
+     after:h-[2px] after:w-full after:bg-red-600 after:rounded-full
+     ${isActive ? "after:opacity-100" : "after:opacity-0"}`;
+
   return (
     <nav className=" h-14 fixed top-0 w-full bg-black/70 backdrop-blur-xs text-white z-100">
       <div className="container mx-auto h-14 flex items-center justify-between gap-4 px-4 sm:p-0">
-        {/* Desktop nav */}
         <div className="hidden w-full md:flex">
           <ul className="list-none flex flex-row gap-8 items-center">
             <li>
-              <Link
-                to={"/movies"}
-                className="hover:text-white transition"
-                onClick={() => navigate()}
-              >
+              <NavLink to="/movies" onClick={navigate} className={navLinkClass}>
                 Film
-              </Link>
+              </NavLink>
             </li>
+
             <li>
-              <Link
-                to={"/series"}
-                className="hover:text-white transition"
-                onClick={() => navigate()}
-              >
+              <NavLink to="/tv" onClick={navigate} className={navLinkClass}>
                 Serie Tv
-              </Link>
+              </NavLink>
             </li>
+
             <li>
-              <Link
-                to={"/favourites"}
-                className="hover:text-white transition"
-                onClick={() => navigate()}
+              <NavLink
+                to="/favourites"
+                onClick={navigate}
+                className={navLinkClass}
               >
-                <div className="relative">Preferiti {getFavouritesCount() >= 1 && (
-                  <span className="absolute -top-1 -right-4 text-white rounded-4xl bg-red-800 p-2 text-xs h-4 w-4 items-center flex justify-center"> {getFavouritesCount()} </span>)}
+                <div className="relative">
+                  Preferiti
+                  {getFavouritesCount() >= 1 && (
+                    <span className="absolute -top-1 -right-4 text-white rounded-4xl bg-red-800 p-2 text-xs h-4 w-4 flex items-center justify-center">
+                      {getFavouritesCount()}
+                    </span>
+                  )}
                 </div>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>
 
-        {/* Logo */}
         <div className="flex md:justify-center w-full">
-          <Link to="/" onClick={() => navigate()}>
+          <Link to="/" onClick={navigate}>
             <img
               src="/netfis_nobg.svg"
               alt="Netfis logo"
@@ -70,92 +75,106 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Right actions (desktop) */}
-        <div className="hidden w-full md:flex ms-auto items-center justify-end gap-6 ">
-          <Link
+        <div className="hidden w-full md:flex ms-auto items-center justify-end gap-6">
+          <NavLink
             to="/search"
-            onClick={() => navigate()}
-            className="flex items-center gap-2 border-2 py-1 px-4 rounded-full"
+            onClick={navigate}
+            className={({ isActive }) =>
+              `flex items-center gap-2 border-2 py-1 px-4 rounded-full transition
+               ${isActive ? "border-red-600" : ""}`
+            }
           >
             <Search size={16} /> Cerca
-          </Link>
+          </NavLink>
         </div>
+
         <div className="md:hidden w-full flex justify-end">
           <button
-            className="relative w-8 h-8 flex flex-col justify-center items-center gap-1 z-100 group md:hidden"
+            className="relative w-8 h-8 flex flex-col justify-center items-center gap-1 z-100 group"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <span
               className={`block w-6 h-0.5 bg-white rounded transition-all duration-300 
-      ${menuOpen ? "rotate-45 translate-y-1.5" : ""}`}
+                ${menuOpen ? "rotate-45 translate-y-1.5" : ""}`}
             ></span>
 
             <span
               className={`block w-6 h-0.5 bg-white rounded transition-all duration-300 
-      ${menuOpen ? "opacity-0" : "opacity-100"}`}
+                ${menuOpen ? "opacity-0" : "opacity-100"}`}
             ></span>
 
             <span
               className={`block w-6 h-0.5 bg-white rounded transition-all duration-300 
-      ${menuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}
+                ${menuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}
             ></span>
           </button>
         </div>
       </div>
 
-      {/* Mobile menu overlay */}
       <div
-        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${menuOpen
-          ? "opacity-100 pointer-events-auto"
-          : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 
+          ${
+            menuOpen
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
           }`}
         inert={!menuOpen ? true : undefined}
       >
-        {/* Slide-in panel */}
         <aside
-          className={`absolute top-0 right-0 w-64 bg-black/90 backdrop-blur-xl z-50 transform transition-transform duration-300 ${menuOpen ? "translate-x-0" : "translate-x-full"
-            }`}
+          className={`absolute top-0 right-0 w-64 bg-black/90 backdrop-blur-xl z-50 transform transition-transform duration-300 
+            ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
         >
           <div className="p-6 flex flex-col">
             <nav className="flex-1">
               <ul className="flex flex-col gap-4 text-gray-200">
                 <li>
-                  <Link
-                    to={"/movies"}
-                    onClick={() => navigate()}
-                    className="block py-2 px-1 text-lg"
+                  <NavLink
+                    to="/movies"
+                    onClick={navigate}
+                    className={mobileNavLinkClass}
                   >
                     Film
-                  </Link>
+                  </NavLink>
                 </li>
+
                 <li>
-                  <Link
-                    to={"/series"}
-                    onClick={() => navigate()}
-                    className="block py-2 px-1 text-lg"
+                  <NavLink
+                    to="/tv"
+                    onClick={navigate}
+                    className={mobileNavLinkClass}
                   >
                     Serie Tv
-                  </Link>
+                  </NavLink>
                 </li>
+
                 <li>
-                  <Link
-                    to={"/favourites"}
-                    onClick={() => navigate()}
-                    className="block py-2 px-1 text-lg"
+                  <NavLink
+                    to="/favourites"
+                    onClick={navigate}
+                    className={mobileNavLinkClass}
                   >
-                    <div className="relative">Preferiti {getFavouritesCount() >= 1 && (
-                      <span className="absolute top-0 left-15 text-white rounded-4xl bg-red-800 p-2 text-xs h-4 w-4 items-center flex justify-center"> {getFavouritesCount()} </span>)}
+                    <div className="relative">
+                      Preferiti
+                      {getFavouritesCount() >= 1 && (
+                        <span className="absolute top-0 left-15 text-white rounded-4xl bg-red-800 p-2 text-xs h-4 w-4 flex items-center justify-center">
+                          {getFavouritesCount()}
+                        </span>
+                      )}
                     </div>
-                  </Link>
+                  </NavLink>
                 </li>
               </ul>
             </nav>
 
             <div className="mt-4">
               <div className="flex flex-col gap-3 text-gray-300">
-                <Link to={"/search"} className="flex items-center gap-2 py-2">
+                <NavLink
+                  to="/search"
+                  onClick={navigate}
+                  className={mobileNavLinkClass}
+                >
                   <Search size={16} /> Cerca
-                </Link>
+                </NavLink>
               </div>
             </div>
           </div>

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
+
 import {
   fetchOperaById,
   getMovieDetails,
@@ -10,6 +12,7 @@ import {
   getSerieVideos,
   similarOperaFunction,
 } from "../services/api";
+
 import Button from "../components/Button";
 import { Play } from "lucide-react";
 import Layout from "../Layouts/Layout";
@@ -20,6 +23,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
+
 import Card from "../components/Card";
 import TecnicalInfoDetails from "../components/TecnicalInfoDetails";
 import Actor from "../components/Actor";
@@ -27,172 +31,215 @@ import Selector from "../components/Selector";
 import Loader from "../components/Loader";
 
 export default function Details() {
+  // React Router utilities
+  const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Raw opera (passed from previous page)
   let { operaRaw } = location.state || {};
 
-  const { id } = useParams();
-  const type = location.pathname.includes("/movie") ? "movie" : "tv";
+  // Determine content type based on URL
+  const contentType = location.pathname.includes("/movie") ? "movie" : "tv";
 
+  // State variables with clearer English names
+  const [operaData, setOperaData] = useState(operaRaw || null);
+  const [detailsData, setDetailsData] = useState(null);
+  const [mainImage, setMainImage] = useState(null);
+  const [videoKey, setVideoKey] = useState(null);
+  const [similarContent, setSimilarContent] = useState(null);
 
-  const [details, setDetails] = useState(null);
-  const [opera, setOpera] = useState(operaRaw || null);
-  const [video, setVideo] = useState(null);
-  const [image, setImage] = useState(null);
-  const [similarOpera, setSimilarOpera] = useState(null);
-
-  // --- Fetch dettagli principali ---
+  // -------------------------------------------
+  // Fetch main opera if not provided via state
+  // -------------------------------------------
   useEffect(() => {
-    const ensureOpera = async () => {
-      if (!opera) {
-        try {
-          const data = await fetchOperaById(id, type);
-          setOpera(data);
-        } catch (err) {
-          console.error("Errore fetch opera by id:", err);
-        }
-      }
-    }
+    const loadOpera = async () => {
+      try {
+        if (!operaData) {
+          const fetched = await fetchOperaById(id, contentType);
 
-    ensureOpera().then(() => {
-
-      const fetchData = async () => {
-        try {
-          let detailsData, imagesData, videosData;
-
-          if (!opera.title) {
-            detailsData = await getSerieDetails(opera.id);
-            imagesData = await getSerieImages(opera.id);
-            videosData = await getSerieVideos(opera.id);
-          } else {
-            detailsData = await getMovieDetails(opera.id);
-            imagesData = await getMovieImages(opera.id);
-            videosData = await getMovieVideos(opera.id);
+          if (!fetched) {
+            navigate("/error");
+            return;
           }
 
-          setDetails(detailsData);
-          setImage(imagesData.backdrops?.[0]?.file_path || null);
-
-          const trailerRaw =
-            videosData.results.find(
-              (v) => v.type === "Trailer" && v.site === "YouTube"
-            ) || videosData.results.find((v) => v.site === "YouTube");
-
-          setVideo(trailerRaw?.key || "");
-        } catch (err) {
-          console.error("Errore fetch details:", err);
+          setOperaData(fetched);
         }
-      };
+      } catch (err) {
+        console.error(err);
+        navigate("/error");
+      }
+    };
 
-      fetchData();
+    loadOpera();
+  }, [operaData, id, contentType, navigate]);
 
-      const fetchSimilar = async () => {
-        try {
-          const result = await similarOperaFunction(
-            opera.genres,
-            opera.title ? "film" : "tv"
-          );
-          setSimilarOpera(result);
-        } catch (err) {
-          console.error("Errore fetch similar opera:", err);
-        }
-      };
-
-      fetchSimilar();
-    });
-  }, [opera, id]);
-
+  // -------------------------------------------------------------
+  // Once operaData is ready, fetch details, images and video
+  // -------------------------------------------------------------
   useEffect(() => {
-    if (!video) {
-      setVideo("GV3HUDMQ-F8");
-    }
-  }, [video]);
+    if (!operaData) return;
 
-  if (!details || !image) {
+    const loadDetails = async () => {
+      try {
+        let detailResponse;
+        let imageResponse;
+        let videoResponse;
+
+        // TV Show uses "name", Movie uses "title"
+        const isMovie = Boolean(operaData.title);
+
+        if (isMovie) {
+          detailResponse = await getMovieDetails(operaData.id);
+          imageResponse = await getMovieImages(operaData.id);
+          videoResponse = await getMovieVideos(operaData.id);
+        } else {
+          detailResponse = await getSerieDetails(operaData.id);
+          imageResponse = await getSerieImages(operaData.id);
+          videoResponse = await getSerieVideos(operaData.id);
+        }
+
+        if (!detailResponse) {
+          navigate("/error");
+          return;
+        }
+
+        setDetailsData(detailResponse);
+        setMainImage(imageResponse.backdrops?.[0]?.file_path || null);
+
+        const trailer =
+          videoResponse.results.find(
+            (v) => v.type === "Trailer" && v.site === "YouTube"
+          ) || videoResponse.results.find((v) => v.site === "YouTube");
+
+        setVideoKey(trailer?.key || "");
+      } catch (err) {
+        console.error(err);
+        navigate("/error");
+      }
+    };
+
+    loadDetails();
+
+    // -------------------------------------------------------
+    // Fetch similar content for recommendations
+    // -------------------------------------------------------
+    const loadSimilarContent = async () => {
+      try {
+        const result = await similarOperaFunction(
+          operaData.genres,
+          operaData.title ? "film" : "tv"
+        );
+
+        setSimilarContent(result);
+      } catch {
+        setSimilarContent([]);
+      }
+    };
+
+    loadSimilarContent();
+  }, [operaData, navigate]);
+
+  // -------------------------------------------------------
+  // Fallback video if no trailer was found
+  // -------------------------------------------------------
+  useEffect(() => {
+    if (!videoKey) {
+      setVideoKey("GV3HUDMQ-F8");
+    }
+  }, [videoKey]);
+
+  // -------------------------------------------------------
+  // Loader state
+  // -------------------------------------------------------
+  if (!detailsData) {
     return <Loader />;
   }
 
+  // -------------------------------------------------------
+  // Render component
+  // -------------------------------------------------------
   return (
     <Layout>
+      {/* Hero section */}
       <div className="relative flex items-center min-h-fit lg:h-[70vh] flex-col lg:flex-row 2xl:h-screen w-full overflow-hidden mx-auto px-10 lg:px-56">
         {/* Background image */}
-        <img
-          src={`https://image.tmdb.org/t/p/original${image}`}
-          alt={details.title || details.name}
-          className="absolute inset-0 w-full h-full object-cover object-top opacity-30"
-        />
+        {mainImage && (
+          <img
+            src={`https://image.tmdb.org/t/p/original${mainImage}`}
+            alt={detailsData.title || detailsData.name}
+            className="absolute inset-0 w-full h-full object-cover object-top opacity-30"
+          />
+        )}
 
+        {/* Gradients */}
         <div className="absolute inset-0 top-0 left-0 w-4/5 bg-linear-to-r from-black to-transparent z-10 opacity-0 lg:opacity-100"></div>
         <div className="absolute inset-y-0 top-0 right-0 w-1/2 bg-linear-to-l from-black to-transparent z-10 opacity-0 lg:opacity-100"></div>
         <div className="absolute bottom-0 right-0 w-full h-[55%] bg-linear-to-t from-[#181818] to-transparent z-10 opacity-0 lg:opacity-100"></div>
 
-        {/* Trailer iframe */}
+        {/* Trailer */}
         <iframe
-          src={`https://www.youtube.com/embed/${video}?autoplay=1&mute=1&controls=0&loop=1&playlist=${video}`}
+          src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoKey}`}
           className="lg:absolute top-0 left-0 w-screen h-full object-cover object-center opacity-0 lg:opacity-100"
           allow="autoplay; encrypted-media;"
           allowFullScreen
           style={{ pointerEvents: "none" }}
         />
 
-        {/* Content */}
+        {/* Details content */}
         <div className="relative z-20 max-w-2xl mb-40 md:mb-0">
-          {/* Titolo */}
           <h2 className="text-white text-4xl lg:text-7xl font-extrabold drop-shadow-lg mb-4">
-            {details.title || details.name}
+            {detailsData.title || detailsData.name}
           </h2>
 
-          {/* Info aggiuntive */}
           <div className="text-white text-sm mb-4 flex flex-wrap gap-4">
-            {details.adult && (
+            {detailsData.adult && (
               <span className="px-2 py-1 bg-red-600 rounded">
                 Vietato ai minori
               </span>
             )}
-            {opera.runtime
-              ? `${opera.runtime} min`
-              : opera.number_of_seasons
-                ? `${opera.number_of_seasons} stagioni`
-                : "N/A"}
-            {details.genres?.length > 0 && (
-              <span>{details.genres.map((g) => g.name).join(", ")}</span>
+
+            {operaData.runtime
+              ? `${operaData.runtime} min`
+              : operaData.number_of_seasons
+              ? `${operaData.number_of_seasons} stagioni`
+              : "N/A"}
+
+            {detailsData.genres?.length > 0 && (
+              <span>{detailsData.genres.map((g) => g.name).join(", ")}</span>
             )}
-            {opera.release_date?.slice(0, 4) ||
-              opera.first_air_date?.slice(0, 4)}
+
+            {operaData.release_date?.slice(0, 4) ||
+              operaData.first_air_date?.slice(0, 4)}
           </div>
 
-          {/* Overview */}
           <h3 className="text-white text-md leading-relaxed drop-shadow-md mb-4">
-            {details.overview}
+            {detailsData.overview}
           </h3>
 
-          {/* Pulsanti */}
           <div className="flex flex-col gap-4 sm:flex-row my-10">
-            <Button
-              className={"w-full sm:w-auto justify-center sm:justify-self-auto"}
-            >
+            <Button className="w-full sm:w-auto justify-center sm:justify-self-auto">
               <Play /> Guarda ora
             </Button>
+
             <FavouriteButton
-              className={
-                "bg-transparent border-white border-2  w-full sm:w-auto justify-center sm:justify-self-auto"
-              }
-              opera={opera}
+              className="bg-transparent border-white border-2 w-full sm:w-auto justify-center sm:justify-self-auto"
+              opera={operaData}
             />
           </div>
         </div>
       </div>
 
-      {!opera.title && (
+      {/* Episodes section */}
+      {!operaData.title && (
         <div className="mt-10 px-10 lg:px-56">
-          {/* SELEZIONE STAGIONE */}
           <h3 className="text-white font-bold text-2xl mb-4 ms-3">Episodi</h3>
-
-          <Selector opera={opera} />
+          <Selector opera={operaData} />
         </div>
       )}
 
-      {/* CAST */}
-      {details.credits?.cast && details.credits.cast.length > 0 && (
+      {/* Cast */}
+      {detailsData.credits?.cast && detailsData.credits.cast.length > 0 && (
         <div className="mt-16 px-10 lg:px-56">
           <h3 className="text-white font-bold text-2xl mb-4">
             Cast principale
@@ -209,7 +256,7 @@ export default function Details() {
               1024: { slidesPerView: 7 },
             }}
           >
-            {details.credits.cast.slice(0, 12).map((actor) => (
+            {detailsData.credits.cast.slice(0, 12).map((actor) => (
               <SwiperSlide key={actor.id}>
                 <Actor actor={actor} />
               </SwiperSlide>
@@ -218,21 +265,21 @@ export default function Details() {
         </div>
       )}
 
-      {/* INFO TECNICHE */}
+      {/* Technical details */}
       <div className="mt-16 px-10 lg:px-56 text-white">
         <h3 className="font-bold text-2xl mb-6">Dettagli tecnici</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 opacity-90">
-          <TecnicalInfoDetails details={details} />
+          <TecnicalInfoDetails details={detailsData} />
         </div>
       </div>
 
-      {/* Opere simili */}
-      {similarOpera && similarOpera.length > 0 && (
+      {/* Similar content */}
+      {similarContent && similarContent.length > 0 && (
         <div className="mt-10 px-10 lg:px-56">
           <h3 className="text-white font-bold text-2xl mb-4">
-            {opera.title && "Altri film simili:"}
-            {!opera.title && "Altre serie tv simili:"}
+            {operaData.title && "Altri film simili:"}
+            {!operaData.title && "Altre serie tv simili:"}
           </h3>
 
           <Swiper
@@ -249,11 +296,10 @@ export default function Details() {
             }}
             className="min-h-100 h-fit"
           >
-            {similarOpera.map((item) => (
+            {similarContent.map((item) => (
               <SwiperSlide key={item.id}>
                 <Card
-                  className={"aspect-9/16 w-full h-full"}
-                  key={item.id}
+                  className="aspect-9/16 w-full h-full"
                   id={item.id}
                   name={item.name}
                   image={item.poster_path}
