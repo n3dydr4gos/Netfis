@@ -52,7 +52,7 @@ export default function Navbar() {
                 onClick={() => navigate()}
               >
                 <div className="relative">Preferiti {getFavouritesCount() >= 1 && (
-                  <span className="absolute -top-1 -right-4 text-white rounded-4xl bg-red-800 p-2 text-xs h-4 w-4 items-center flex justify-center animate-bounce transition-all"> {getFavouritesCount()} </span>)}
+                  <span className="absolute -top-1 -right-4 text-white rounded-4xl bg-red-800 p-2 text-xs h-4 w-4 items-center flex justify-center"> {getFavouritesCount()} </span>)}
                 </div>
               </Link>
             </li>
@@ -144,7 +144,7 @@ export default function Navbar() {
                     className="block py-2 px-1 text-lg"
                   >
                     <div className="relative">Preferiti {getFavouritesCount() >= 1 && (
-                      <span className="absolute top-0 left-15 text-white rounded-4xl bg-red-800 p-2 text-xs h-4 w-4 items-center flex justify-center animate-bounce transition-all"> {getFavouritesCount()} </span>)}
+                      <span className="absolute top-0 left-15 text-white rounded-4xl bg-red-800 p-2 text-xs h-4 w-4 items-center flex justify-center"> {getFavouritesCount()} </span>)}
                     </div>
                   </Link>
                 </li>
