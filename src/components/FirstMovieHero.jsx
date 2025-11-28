@@ -76,7 +76,7 @@ export default function FirstMovieHero({ movie, image, trailer, details }) {
             },
           }}
           onReady={onReady}
-          className="lg:absolute top-0 left-0 w-screen h-full object-cover object-center opacity-0 lg:opacity-100"
+          className="lg:absolute top-0 left-0 w-screen h-0 lg:h-full object-cover object-center opacity-0 lg:opacity-100"
         />
 
         <Button
@@ -86,14 +86,14 @@ export default function FirstMovieHero({ movie, image, trailer, details }) {
           {muted ? <VolumeX className="w-6 h-6 text-white" /> : <Volume2 className="w-6 h-6 text-white" />}
         </Button>
 
-        <div className="relative z-20 max-w-2xl mb-40 md:mb-0">
+        <div className="relative z-20 max-w-2xl py-15 lg:py-0 mt-8 lg:mt-0">
           <h2 className="text-white text-4xl lg:text-7xl font-extrabold drop-shadow-lg mb-4 text-shadow-[2px_2px_40px_rgba(0,0,0,0.5)] text-shadow-white">
             {movie.title}
           </h2>
           <h3 className="text-white text-md leading-relaxed drop-shadow-md">
             {firstMovieDescription}
           </h3>
-          <div className="flex flex-col gap-4 md:flex-row my-10">
+          <div className="flex flex-col gap-4 md:flex-row mt-10">
             <Button className={"w-full md:w-auto justify-center md:justify-self-auto"} trailer={firstMovieTrailerSafe} type="guarda">
               <Play /> Guarda ora
             </Button>

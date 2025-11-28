@@ -226,7 +226,7 @@ export default function Details() {
             },
           }}
           onReady={onReady}
-          className="lg:absolute top-0 left-0 w-screen h-full object-cover object-center opacity-0 lg:opacity-100"
+          className="lg:absolute top-0 left-0 w-screen h-0 lg:h-full object-cover object-center opacity-0 lg:opacity-100"
         />
 
         <Button
@@ -237,7 +237,7 @@ export default function Details() {
         </Button>
 
         {/* Details content */}
-        <div className="relative z-20 max-w-2xl mb-40 md:mb-0">
+        <div className="relative z-20 max-w-2xl py-15 lg:py-0 mt-8 lg:mt-0">
           <h2 className="text-white text-4xl lg:text-7xl font-extrabold drop-shadow-lg mb-4">
             {detailsData.title || detailsData.name}
           </h2>
@@ -267,7 +267,7 @@ export default function Details() {
             {detailsData.overview}
           </h3>
 
-          <div className="flex flex-col gap-4 sm:flex-row my-10">
+          <div className="flex flex-col gap-4 sm:flex-row mt-10">
             <Button className="w-full sm:w-auto justify-center sm:justify-self-auto" trailer={videoKey || videoKeyTMP} type="guarda">
               <Play /> Guarda ora
             </Button>
@@ -335,10 +335,10 @@ export default function Details() {
           <Swiper
             modules={[Navigation]}
             spaceBetween={20}
-            slidesPerView={2}
+            slidesPerView={1}
             navigation
             breakpoints={{
-              640: { slidesPerView: 2 },
+              640: { slidesPerView: 1 },
               768: { slidesPerView: 3 },
               1024: { slidesPerView: 3 },
               1280: { slidesPerView: 4 },

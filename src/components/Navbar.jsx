@@ -32,7 +32,7 @@ export default function Navbar() {
   return (
     <nav className=" h-14 fixed top-0 w-full bg-black/70 backdrop-blur-xs text-white z-100">
       <div className="container mx-auto h-14 flex items-center justify-between gap-4 px-4 sm:p-0">
-        <div className="hidden w-full md:flex">
+        <div className="hidden w-full md:flex ms-5">
           <ul className="list-none flex flex-row gap-8 items-center">
             <li>
               <NavLink to="/movies" onClick={navigate} className={navLinkClass}>
@@ -75,7 +75,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <div className="hidden w-full md:flex ms-auto items-center justify-end gap-6">
+        <div className="hidden w-full md:flex ms-auto items-center justify-end gap-6 me-5">
           <NavLink
             to="/search"
             onClick={navigate}
