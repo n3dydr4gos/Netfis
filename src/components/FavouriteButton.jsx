@@ -11,10 +11,8 @@
 import { Heart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useFavourites } from "../context/FavouritesContext";
-import { useNavigate } from "react-router-dom";
 
 export default function FavouriteButton({ opera, className }) {
-  const navigate = useNavigate();
   const { favourites, addFavourite, removeFavourite } = useFavourites();
   const [isFavourite, setIsFavourite] = useState(false);
   const [animate, setAnimate] = useState(false);
@@ -30,9 +28,6 @@ export default function FavouriteButton({ opera, className }) {
       addFavourite(opera);
       setAnimate(true);
       setTimeout(() => setAnimate(false), 300);
-      if (!isFavourite) {
-        navigate("/favourites");
-      }
     }
   };
 

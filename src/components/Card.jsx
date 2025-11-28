@@ -37,7 +37,7 @@ export default function Card({ id, image, name, type, className, backdrop }) {
     <>
       <div
         id={id}
-        className={`max-w-80 h-full items-center  flex flex-col pb-2 cursor-pointer hover:scale-105 transition-transform duration-300 group ${className}`}
+        className={`max-w-80 h-full items-center mx-auto flex flex-col pb-2 cursor-pointer hover:scale-105 transition-transform duration-300 group ${className}`}
         onClick={() => {
           setIsOpen(true);
           getDetails();

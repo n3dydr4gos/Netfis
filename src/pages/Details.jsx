@@ -10,7 +10,7 @@ import {
   getSerieDetails,
   getSerieImages,
   getSerieVideos,
-  similarOperaFunction,
+  getSimilar,
 } from "../services/api";
 
 import Button from "../components/Button";
@@ -55,7 +55,7 @@ export default function Details() {
   useEffect(() => {
     const loadOpera = async () => {
       try {
-        if (!operaData) {
+        if (!operaData || operaData.id.toString() !== id.toString()) {
           const fetched = await fetchOperaById(id, contentType);
 
           if (!fetched) {
@@ -72,7 +72,7 @@ export default function Details() {
     };
 
     loadOpera();
-  }, [operaData, id, contentType, navigate]);
+  }, [id, operaData, contentType, navigate]);
 
   // -------------------------------------------------------------
   // Once operaData is ready, fetch details, images and video
@@ -126,8 +126,8 @@ export default function Details() {
     // -------------------------------------------------------
     const loadSimilarContent = async () => {
       try {
-        const result = await similarOperaFunction(
-          operaData.genres,
+        const result = await getSimilar(
+          operaData.id,
           operaData.title ? "film" : "tv"
         );
 
@@ -147,7 +147,7 @@ export default function Details() {
     if (!videoKey) {
       setVideoKey("GV3HUDMQ-F8");
     }
-  }, [videoKey]);
+  }, [videoKey, operaData]);
 
   // -------------------------------------------------------
   // Loader state
@@ -202,8 +202,8 @@ export default function Details() {
             {operaData.runtime
               ? `${operaData.runtime} min`
               : operaData.number_of_seasons
-              ? `${operaData.number_of_seasons} stagioni`
-              : "N/A"}
+                ? `${operaData.number_of_seasons} stagioni`
+                : "N/A"}
 
             {detailsData.genres?.length > 0 && (
               <span>{detailsData.genres.map((g) => g.name).join(", ")}</span>
@@ -283,11 +283,10 @@ export default function Details() {
           </h3>
 
           <Swiper
-            modules={[Navigation, Pagination]}
+            modules={[Navigation]}
             spaceBetween={20}
             slidesPerView={2}
             navigation
-            pagination={{ clickable: true }}
             breakpoints={{
               640: { slidesPerView: 2 },
               768: { slidesPerView: 3 },
@@ -297,13 +296,13 @@ export default function Details() {
             className="min-h-100 h-fit"
           >
             {similarContent.map((item) => (
-              <SwiperSlide key={item.id}>
+              <SwiperSlide key={item.id} >
                 <Card
                   className="aspect-9/16 w-full h-full"
                   id={item.id}
-                  name={item.name}
+                  type={item.title ? "movie" : "serie"}
+                  name={item.title || item.original_name}
                   image={item.poster_path}
-                  type={item.title ? "film" : "serie"}
                 />
               </SwiperSlide>
             ))}

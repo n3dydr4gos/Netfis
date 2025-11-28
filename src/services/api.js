@@ -95,16 +95,13 @@ export async function searchMulti(query) {
   return data.results || [];
 }
 
-export async function similarOperaFunction(genres, type) {
+export async function getSimilar(operaId, type) {
   const endpoint = type === "film" ? "movie" : "tv";
-  const genreIds = genres.map(g => g.id).join("|");
-  const res = await fetch(
-    `${API_URL}/discover/${endpoint}?with_genres=${genreIds}&language=it-IT`,
-    options
-  );
+  const res = await fetch(`${API_URL}/${endpoint}/${operaId}/similar?language=it-IT`, options);
   const data = await res.json();
   return data.results || [];
 }
+
 
 export async function getHomeContent() {
   const combos = [

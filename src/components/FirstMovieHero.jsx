@@ -10,7 +10,7 @@
 
 import { Play } from "lucide-react";
 import Button from "./Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./Modal";
 
 export default function FirstMovieHero({ movie, image, trailer, details }) {
@@ -21,6 +21,7 @@ export default function FirstMovieHero({ movie, image, trailer, details }) {
   const firstMovieDescription = details?.overview || movie?.overview;
 
   if (!movie || !image || !firstMovieDescription) return null;
+
 
   return (
     <>
