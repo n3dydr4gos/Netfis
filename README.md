@@ -8,6 +8,7 @@ Netfis is an improved Netflix clone created for educational and
 portfolio purposes by **Dragos Nedelcu** and **Davide Martinelli**.
 
 The application offers:
+
 - Real-time movie & TV show data
 - Trailers, cast, seasons, and similar content
 - Favorites system (local persistence)
@@ -19,15 +20,15 @@ The project focuses on clean architecture, performance, and high-quality UX.
 
 ## 🚀 Technologies Used
 
-| Technology    | Version | Why it was chosen |
-| :------------ | :-----: | :--------------- |
-| React         | 19+     | Component architecture, fast rendering |
-| Vite          | 7+      | Extremely fast dev server and builds |
-| TailwindCSS   | 4+      | Rapid styling, minimal custom CSS |
-| React Router  | 7.9     | SPA routing, URL params handling |
-| Swiper        | 12+     | Netflix-like sliders/carousels |
-| Lucide React  | 0.553   | Lightweight modern icons |
-| TMDB API      | —       | High-quality movie/series data |
+| Technology   | Version | Why it was chosen                      |
+| :----------- | :-----: | :------------------------------------- |
+| React        |   19+   | Component architecture, fast rendering |
+| Vite         |   7+    | Extremely fast dev server and builds   |
+| TailwindCSS  |   4+    | Rapid styling, minimal custom CSS      |
+| React Router |   7.9   | SPA routing, URL params handling       |
+| Swiper       |   12+   | Netflix-like sliders/carousels         |
+| Lucide React |  0.553  | Lightweight modern icons               |
+| TMDB API     |    —    | High-quality movie/series data         |
 
 Node recommended: **>= 22.0**
 
@@ -67,42 +68,42 @@ src/
 
 ### Movies
 
-| Function | Description |
-|----------|-------------|
-| `getPopularMovies()` | Fetch popular movies |
-| `getMovieImages(movieId)` | Fetch movie backdrops and posters |
-| `getMovieVideos(movieId)` | Fetch trailers and video clips |
+| Function                   | Description                                                  |
+| -------------------------- | ------------------------------------------------------------ |
+| `getPopularMovies()`       | Fetch popular movies                                         |
+| `getMovieImages(movieId)`  | Fetch movie backdrops and posters                            |
+| `getMovieVideos(movieId)`  | Fetch trailers and video clips                               |
 | `getMovieDetails(movieId)` | Fetch full movie details (videos, images, credits, keywords) |
-| `getMovieGenres()` | Fetch all movie genres |
+| `getMovieGenres()`         | Fetch all movie genres                                       |
 
 ### TV Series
 
-| Function | Description |
-|----------|-------------|
-| `getPopularSeries()` | Fetch popular TV series |
-| `getSerieImages(serieId)` | Fetch TV show backdrops and posters |
-| `getSerieVideos(serieId)` | Fetch trailers and video clips |
-| `getSerieDetails(serieId)` | Fetch full TV show details (videos, images, credits, keywords) |
-| `getSeasonDetails(tvId, seasonNumber)` | Fetch details for a specific season |
-| `getSeriesGenres()` | Fetch all TV genres |
+| Function                               | Description                                                    |
+| -------------------------------------- | -------------------------------------------------------------- |
+| `getPopularSeries()`                   | Fetch popular TV series                                        |
+| `getSerieImages(serieId)`              | Fetch TV show backdrops and posters                            |
+| `getSerieVideos(serieId)`              | Fetch trailers and video clips                                 |
+| `getSerieDetails(serieId)`             | Fetch full TV show details (videos, images, credits, keywords) |
+| `getSeasonDetails(tvId, seasonNumber)` | Fetch details for a specific season                            |
+| `getSeriesGenres()`                    | Fetch all TV genres                                            |
 
 ### Search & Recommendations
 
-| Function | Description |
-|----------|-------------|
-| `searchMulti(query)` | Search for movies, series, and people |
+| Function                             | Description                           |
+| ------------------------------------ | ------------------------------------- |
+| `searchMulti(query)`                 | Search for movies, series, and people |
 | `similarOperaFunction(genres, type)` | Fetch similar movies/series by genres |
 
 ### Homepage / Curated Content
 
-| Function | Description |
-|----------|-------------|
+| Function           | Description                                              |
+| ------------------ | -------------------------------------------------------- |
 | `getHomeContent()` | Fetch curated categories for homepage with movies/series |
 
 ### Generic Fetch by ID
 
-| Function | Description |
-|----------|-------------|
+| Function                   | Description                                       |
+| -------------------------- | ------------------------------------------------- |
 | `fetchOperaById(id, type)` | Fetch movie/TV by ID. Returns `null` if not found |
 
 ---
@@ -137,20 +138,21 @@ npm run dev
 
 ## 📦 External Libraries Justification
 
-- **TailwindCSS** — Faster UI building, utility-first approach  
-- **Swiper** — Netflix-like horizontal sliders  
-- **Lucide-react** — Lightweight, modern icon set  
+- **TailwindCSS** — Faster UI building, utility-first approach
+- **Swiper** — Netflix-like horizontal sliders
+- **Lucide-react** — Lightweight, modern icon set
 - **React Router** — Dynamic routing for SPA pages
+- **React YouTube** — Embedding YouTube videos with React components
 
 ---
 
 ## ⚠️ Known Issues / Limitations
 
-- Missing trailers for some titles  
-- Missing backdrops (fallbacks used)  
-- API rate limits  
-- Favorites stored locally only  
-- No authentication  
+- Missing trailers for some titles
+- Missing backdrops (fallbacks used)
+- API rate limits
+- Favorites stored locally only
+- No authentication
 - No multi-language support
 
 ---
@@ -163,6 +165,5 @@ Open-source for educational and portfolio purposes.
 
 ## ✨ Authors
 
-- **Dragos Nedelcu** — [GitHub](https://github.com/n3dydr4gos) — nedydragos@gmail.com  
+- **Dragos Nedelcu** — [GitHub](https://github.com/n3dydr4gos) — nedydragos@gmail.com
 - **Davide Martinelli** — [GitHub](https://github.com/davide-its) — davide.martinelli15@gmail.com
-
