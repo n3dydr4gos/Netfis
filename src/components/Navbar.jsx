@@ -35,13 +35,13 @@ export default function Navbar() {
         <div className="hidden w-full md:flex ms-5">
           <ul className="list-none flex flex-row gap-8 items-center">
             <li>
-              <NavLink to="/movies" onClick={navigate} className={navLinkClass}>
+              <NavLink to="/movies" onClick={navigate} className={navLinkClass} title="Guarda il catalogo film">
                 Film
               </NavLink>
             </li>
 
             <li>
-              <NavLink to="/tv" onClick={navigate} className={navLinkClass}>
+              <NavLink to="/tvs" onClick={navigate} className={navLinkClass} title="Guarda il catalogo serie tv">
                 Serie Tv
               </NavLink>
             </li>
@@ -51,6 +51,7 @@ export default function Navbar() {
                 to="/favourites"
                 onClick={navigate}
                 className={navLinkClass}
+                title="Guarda i tuoi preferiti"
               >
                 <div className="relative">
                   Preferiti
@@ -71,6 +72,7 @@ export default function Navbar() {
               src="/netfis_nobg.svg"
               alt="Netfis logo"
               className="w-full h-28 object-contain object-center"
+              title="Vai alla homepage"
             />
           </Link>
         </div>
@@ -83,6 +85,7 @@ export default function Navbar() {
               `flex items-center gap-2 border-2 py-1 px-4 rounded-full transition
                ${isActive ? "border-red-600" : ""}`
             }
+            title="Cerca nel catalogo"
           >
             <Search size={16} /> Cerca
           </NavLink>
@@ -132,6 +135,7 @@ export default function Navbar() {
                     to="/movies"
                     onClick={navigate}
                     className={mobileNavLinkClass}
+                    title="Guarda il catalogo film"
                   >
                     Film
                   </NavLink>
@@ -139,9 +143,10 @@ export default function Navbar() {
 
                 <li>
                   <NavLink
-                    to="/tv"
+                    to="/tvs"
                     onClick={navigate}
                     className={mobileNavLinkClass}
+                    title="Guarda il catalogo serie tv"
                   >
                     Serie Tv
                   </NavLink>
@@ -152,6 +157,7 @@ export default function Navbar() {
                     to="/favourites"
                     onClick={navigate}
                     className={mobileNavLinkClass}
+                    title="Guarda i tuoi preferiti"
                   >
                     <div className="relative">
                       Preferiti
@@ -172,6 +178,7 @@ export default function Navbar() {
                   to="/search"
                   onClick={navigate}
                   className={mobileNavLinkClass}
+                  title="Cerca nel catalogo"
                 >
                   <Search size={16} /> Cerca
                 </NavLink>

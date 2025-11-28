@@ -16,7 +16,7 @@ export default function Favourites() {
               <span> Film </span>
             </Link>
             <span> o delle </span>
-            <Link to={"/series"} className="text-red-600 font-bold">
+            <Link to={"/tvs"} className="text-red-600 font-bold">
               <span> Serie </span>
             </Link>
             <span> e aggiungi i tuoi preferiti!</span>
@@ -48,7 +48,7 @@ export default function Favourites() {
             <span> Film </span>
           </Link>
           <span> o delle </span>
-          <Link to={"/series"} className="text-red-600 font-bold">
+          <Link to={"/tvs"} className="text-red-600 font-bold">
             <span>Serie</span>
           </Link>
           <span> e aggiungi i tuoi preferiti!</span>
