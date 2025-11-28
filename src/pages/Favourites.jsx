@@ -10,15 +10,17 @@ export default function Favourites() {
     return (
       <Layout>
         <section className="text-white text-center py-20 min-h-[70vh] flex justify-center items-center gap-1">
-          <span>Nessun film o serie tra i preferiti. Vai nella pagina dei</span>
-          <Link to={"/movies"} className="text-red-600 font-bold">
-            <span> Film </span>
-          </Link>
-          <span> o delle </span>
-          <Link to={"/series"} className="text-red-600 font-bold">
-            <span> Serie </span>
-          </Link>
-          <span> e aggiungi i tuoi preferiti!</span>
+          <div className="px-5">
+            <span>Nessun film o serie tra i preferiti.<br></br>Vai nella pagina dei</span>
+            <Link to={"/movies"} className="text-red-600 font-bold">
+              <span> Film </span>
+            </Link>
+            <span> o delle </span>
+            <Link to={"/series"} className="text-red-600 font-bold">
+              <span> Serie </span>
+            </Link>
+            <span> e aggiungi i tuoi preferiti!</span>
+          </div>
         </section>
       </Layout>
     );
